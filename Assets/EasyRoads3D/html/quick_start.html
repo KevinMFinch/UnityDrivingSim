@@ -1,0 +1,81 @@
+<html>
+<head>
+		<title>EasyRoads3D v3 Manual</title>
+<link rel="stylesheet" type="text/css" href="../style.css" />    
+</head>
+
+	<body>
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="12"><img src="../images/topLeft.jpg" width="76" height="62"></td>
+    <td valign="top" class="style7" style="background:url(../images/topMiddle.jpg);padding-top:16px;padding-left:25px">EasyRoads3D V3 Beta Manual</td>
+    <td width="257" align="right"><img src="../images/topRight.jpg" width="257" height="62"></td>
+  </tr>
+</table>
+<table width="93%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+	    <td><a href="../manualv3.html"><img src="../images/previousTop.jpg" width="97" height="20" border="0"></a></td>
+	    <td align="right"><a href="general_workflow.html"><img src="../images/nextTop.jpg" width="73" height="20" border="0"></a></td>
+      </tr>
+	  <tr>
+	    <td height="35" valign="bottom"><a href="../manualv3.html"><img src="../images/home.jpg" width="130" height="20" border="0"></a></td>
+	    <td align="right">&nbsp;</td>
+      </tr>
+	  <tr>
+	    <td colspan="2" class="style1"><p>&nbsp;</p>
+	      <p class="header1" style="color:#000">Quick Start<hr>
+	      <p class="style8">&nbsp;</p>
+	      <p class="header2">PROVISIONAL V3 BETA VIDEOS</p>
+	      <p class="style1"><a href="http://youtu.be/x0QE5H04qoE" target="_blank"><br>
+http://youtu.be/x0QE5H04qoE</a> - new  road features<br>
+<a href="http://youtu.be/tE8ZLrCNVm0" target="_blank">http://youtu.be/tE8ZLrCNVm0</a> - road network scene workflow<br>
+<a href="http://youtu.be/9aIlm3Jz2F8" target="_blank">http://youtu.be/9aIlm3Jz2F8</a> - crossing options<br>
+<a href="http://youtu.be/km4eSJu_k6I" target="_blank">http://youtu.be/km4eSJu_k6I</a> - terrain options<br>
+<a href="http://youtu.be/yDUhBZg7tQM" target="_blank">http://youtu.be/yDUhBZg7tQM</a> - customized road networks - Part 1<br>
+<a href="http://youtu.be/3tJQWBw_UnM" target="_blank">http://youtu.be/3tJQWBw_UnM</a> - side objects workflow<br>
+<a href="http://youtu.be/aPAoJ348Bp0" target="_blank">http://youtu.be/aPAoJ348Bp0</a> - non road related side objects workflow<br>
+<a href="http://youtu.be/qxeLHG7K9xQ" target="_blank">http://youtu.be/qxeLHG7K9xQ</a> - customized road networks - Part 2</p>
+	      <p class="header2">&nbsp;</p>
+	      <p class="header2">IMPORT PACKAGE</p>
+	      <p class="style1">First import the EasyRoads3D v3 package. This will add the following new menu item in the Unity Editor:</p>
+	      <p class="style1"><strong>Main Menu &gt; GameObject &gt; 3D Object&gt; EasyRoads3D &gt; New Road Network</strong></p>
+	      <p class="style1">A new game object &quot;Road Network&quot; will be created in the scene hierarchy and auto selected. In the Inspector you will see the following <br>
+          EasyRoads3D v3 Inspector toolbar:</p>
+	      <p class="style1"><img src="../images/toolbar.jpg" width="371" height="29"></p>
+	      <p class="style1"><span class="header2"><a name="newRoad" id="addmarkers4"></a></span></p>
+	      <p class="style1">To create a new road, click the second tab from the left <img src="../images/roads_tab.jpg" width="53" height="29" style="vertical-align:middle"> . Select one of the <a href="#">preset roads</a> from the dropdown and and click the <strong>Add New Object</strong> button. A new game object will be created in<strong> Road Network / Road Objects</strong> and is automatically activated. Hold SHIFT and click in the scene to add markers. The road will appear after two markers are added. You can add more markers by holding SHIFT and click, you can insert markers by hitting the I key. You can change marker positions by moving the mouse to a marker, it will light up. Click this handle. You can select the traditional position handle or  the rectangle move handle in the Inspector or by pressing the W key (Position handle) or M key (Move handle). The E key will display the rotation handle which can be used to add tilting to the road.</p>
+	      <p class="style1">- <a href="scene.html#roads" class="link">Click here</a> for additional road options in the scene<br>
+          - <a href="general_settings.html#create" class="link">Click here</a> for more information about setting up road types.</p>
+	      <p class="style1">Next we will create some crossings. Intersections can be added to the start or end of the road. Select the first or last marker of the road you just created. A list of available crossings prefabs will be displayed in the Inspector. Click the prefab button that you want to attach to the selected marker. It will automatically attach to the selected marker.</p>
+	      <p class="style1">You will see red handles in the center of each crossing connection. Click one of Drag one of the red handles and drag the mouse to create a new road starting at that connection.</p>
+	      <p class="style1">Alternatively you can place crossing prefabs directly in the scene. In the Inspector select the third tab from the left <img src="../images/prefabs_tab.jpg" width="53" height="29" style="vertical-align:middle"> from the main EasyRoads3D Toolbar. Select the prefab you want to add to the scene, hold SHIFT and click in the scene where you want to position it.</p>
+	      <p class="style1">You can move  crossings by clicking on the yellow sphere handle in the center. Just like with markers you can move the crossing with the traditional position handle (W key) or the rectangle move handle (M key). Additionally you can also rotate the crossing, click the E key to show the rotation handle.</p>
+	      <p class="style1">- <a href="intersections.html" class="link">Click here</a> for additional crossing prefab options in the scene<br>
+- <a href="general_settings.html#sceneprefabs" class="link">Click here</a> for more information about setting up crossing prefab types</p>
+	      <p class="style1">Next we will flatten the terrain to match the road shapes. Click the middle Mountain tab <img src="../images/terrain_tab.jpg" width="53" height="29" style="vertical-align:middle">  from the main EasyRoads3D Toolbar in the Inspector. You will see a couple of options to customize the final build. Click the <strong>Build Terrain</strong> to actually flatten the terrain to the road shapes. Click the<strong> Restore Terrain</strong> button  to switch back to Edit Mode.</p>
+	      <p class="style1">- <a href="terrain_control.html" class="link">Click here</a> for additional options in Build Mode<br>
+- <a href="general_settings.html#terrain" class="link">Click here</a> for more information about setting up the preferred terrain handling and other terrain related options.</p>
+	      <p class="style1"><strong>IMPORTANT</strong>: always check the <a href="release_notes.html" class="link">Release Notes section</a> for important information!</p>
+	      <p class="style1"><br>
+	        <strong>Recommended Reads:</strong></p>
+	      <p class="style1">- <a href="general_settings.html#create" class="link">road types</a><br>
+	        - <a href="scene.html#roads" class="link">road options</a><br>
+	        - <a href="general_settings.html#sceneprefabs" class="link">creating dynamic crossings</a><br>
+	        - <a href="general_settings.html#customcrossings" class="link">creating custom crossings / road elements</a><br>
+	        - <a href="intersections.html" class="link">adjusting crossings in the scene</a><br>
+	        - <a href="side_objects.html" class="link">side objects</a><br>
+          - <a href="general_settings.html#crossingProps" class="link">importing road data </a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p></td>
+      </tr>
+	  <tr>
+	    <td><a href="creating_roads.html"><img src="../images/previousBtm.jpg" width="89" height="20" border="0"></a></td>
+	    <td align="right"><a href="troubleshooting.html"><img src="../images/nextBtm.jpg" width="70" height="20" border="0"></a></td>
+      </tr>
+    </table>
+	<p>&nbsp;</p>
+    </body>
+	
+</html>
+

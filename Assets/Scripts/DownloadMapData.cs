@@ -34,8 +34,7 @@ public class DownloadMapData : MonoBehaviour
 		maxXTile = xFromLon (maxLon);
 		minYTile = yFromlat (minLat);
 		maxYTile = yFromlat (maxLat);
-		Debug.Log (maxXTile - minXTile);
-		Debug.Log (maxYTile - minYTile);
+		roadCreator.GetComponent<CreateRoads> ().storeBoundingBox (minLon, minLat, maxLon, maxLat);
 		StartCoroutine (downloadMapData ());
 	}
 
@@ -44,17 +43,23 @@ public class DownloadMapData : MonoBehaviour
 		int maxx = Mathf.Max (minXTile, maxXTile);
 		int miny = Mathf.Min (minYTile, maxYTile);
 		int maxy = Mathf.Max (minYTile, maxYTile);
-		for (int x = minx; x <= maxx; x++) {
+		/* for (int x = minx; x <= maxx; x++) {
 			for (int y = miny; y <= maxy; y++) {
 				Debug.Log (x + " " + y);
 				string url = baseURL () + query (x, y);
 				WWW www = new WWW (url);
 				yield return www;
 				string results = www.text;
-				Debug.Log (results);
+				// Debug.Log (results);
 				roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
 			}
-		}
+		} */
+		string url = baseURL () + query (minx, miny);
+		WWW www = new WWW (url);
+		Debug.Log (url);
+		yield return www;
+		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (www.text);
+
 	}
 
 	// Returns the base URL for the mapzen vector tile sercvice
