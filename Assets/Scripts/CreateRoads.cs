@@ -27,6 +27,10 @@ public class CreateRoads : MonoBehaviour {
 		var json = JSON.Parse (results);
 		JSONArray roadFeatures = json ["roads"] ["features"].AsArray;
 		for (int i = 0; i < roadFeatures.Count; i++) {
+			string type = roadFeatures [i] ["geometry"] ["type"].Value;
+			if (type == "LineString") {
+				
+			}
 			var coordinates = roadFeatures [i] ["geometry"]["coordinates"];
 			Debug.Log (coordinates);
 
