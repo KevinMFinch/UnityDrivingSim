@@ -43,23 +43,22 @@ public class DownloadMapData : MonoBehaviour
 		int maxx = Mathf.Max (minXTile, maxXTile);
 		int miny = Mathf.Min (minYTile, maxYTile);
 		int maxy = Mathf.Max (minYTile, maxYTile);
-		for (int x = minx; x <= maxx; x++) {
+		/* for (int x = minx; x <= maxx; x++) {
 			for (int y = miny; y <= maxy; y++) {
-				//Debug.Log (x + " " + y);
 				string url = baseURL () + query (x, y);
 				WWW www = new WWW (url);
 				yield return www;
 				string results = www.text;
-				// Debug.Log (results);
 				roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
 			}
 		}
-		Debug.Log ("all done downloading");
-		/* string url = baseURL () + query (minx, miny);
+		Debug.Log ("all done downloading"); 
+		roadCreator.GetComponent<CreateRoads> ().connectRoads (); */
+		string url = baseURL () + query (minx, miny);
 		WWW www = new WWW (url);
-		Debug.Log (url);
 		yield return www;
-		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (www.text);*/
+		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (www.text);
+		roadCreator.GetComponent<CreateRoads> ().connectRoads ();
 
 	}
 

@@ -19,6 +19,8 @@ public class CreateRoads : MonoBehaviour
 	// Height of the bounding box in meters
 	private float boxHeight;
 	// Width of the bounding box in meters
+	private List<ERRoad> roads;
+	// A list of all the roads in the scene
 
 	public ERRoadNetwork roadNetwork; // The roadnetword object from EasyRoads3D
 	public ERRoad road;				// The Road object from EasyRoads3D
@@ -27,6 +29,7 @@ public class CreateRoads : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		roads = new List<ERRoad> ();
 		roadNetwork = new ERRoadNetwork ();
 		roadType = new ERRoadType();
 		roadType.roadWidth = 6;
@@ -41,22 +44,39 @@ public class CreateRoads : MonoBehaviour
 		
 
 	// Receive the JSON results from the Mapzen download
+	// Parse the JSON to create road objects using EasyRoads3D
 	public void ReceiveDownloadResults (string results)
 	{
-		//Debug.Log ("width:"+ boxWidth);
 		var json = JSON.Parse (results);
 		JSONArray roadFeatures = json ["roads"] ["features"].AsArray;
 		for (int i = 0; i < roadFeatures.Count; i++) {
 			string type = roadFeatures [i] ["geometry"] ["type"].Value;
-			//Debug.Log (type);
 			if (type == "LineString") {
 				JSONArray coordinates = roadFeatures [i] ["geometry"] ["coordinates"].AsArray;
 				Vector3[] roadMarkers = parseLineString (coordinates);
 				ERRoad road = roadNetwork.CreateRoad ("Road", roadType, roadMarkers);
+				roads.Add (road);
 			} else if (type == "MultiLineString") {
-
+				JSONArray coordinates = roadFeatures [i] ["geometry"] ["coordinates"].AsArray;
+				for (int j = 0; j < coordinates.Count; j++) {
+					JSONArray coords = coordinates [j].AsArray;
+					Vector3[] roadMarkers = parseLineString (coords);
+					ERRoad road = roadNetwork.CreateRoad ("Multiline", roadType, roadMarkers);
+					roads.Add (road);
+				}
 			}
 		}
+
+	}
+
+	// Tries to connect road objects to reduce choppiness of road network
+	public void connectRoads() {
+		Debug.Log (roads.Count);
+		//roadNetwork.ConnectRoads (roads [14], roads [25]);
+		for (int i = 0; i < roads.Count-1; i++) {
+			//roadNetwork.ConnectRoads (roads [i], roads [i + 1]);
+		}
+		roadNetwork.HideWhiteSurfaces (true);
 		roadNetwork.BuildRoadNetwork ();
 	}
 
@@ -64,7 +84,6 @@ public class CreateRoads : MonoBehaviour
 	// Use that array to create EasyRoads3D
 	Vector3[] parseLineString(JSONArray coordinates) {
 		Vector3[] markers = new Vector3[coordinates.AsArray.Count];
-		//Debug.Log (markers.Length);
 		for (int j = 0; j < coordinates.Count; j++) {
 			float zCoord = longToZCoord(coordinates [j] [0].AsFloat);
 			float xCoord = latToXCoord(coordinates [j] [1].AsFloat);
