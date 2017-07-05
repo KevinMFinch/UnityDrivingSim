@@ -58,7 +58,7 @@ public class DownloadMapData : MonoBehaviour
 		WWW www = new WWW (url);
 		yield return www;
 		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (www.text);
-		roadCreator.GetComponent<CreateRoads> ().connectRoads ();
+		roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
 
 	}
 
