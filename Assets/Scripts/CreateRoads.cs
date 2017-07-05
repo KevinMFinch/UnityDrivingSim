@@ -47,7 +47,6 @@ public class CreateRoads : MonoBehaviour
 		
 	}
 		
-
 	// Receive the JSON results from the Mapzen download
 	// Parse the JSON to create road objects using EasyRoads3D
 	public void ReceiveDownloadResults (string results)
@@ -86,7 +85,7 @@ public class CreateRoads : MonoBehaviour
 			Vector3 sharedPos = shareNode (existing, toAdd);
 			ERConnection[] conns = roadNetwork.LoadConnections ();
 			if (sharedPos.y >= 0) {
-				ERConnection conn = roadNetwork.InstantiateConnection(conns[5], "conn", sharedPos, new Vector3(0.0f, 0.0f));
+				ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
 				toAdd.ConnectToEnd (conn,0);
 			}
 		}
@@ -196,6 +195,7 @@ public class CreateRoads : MonoBehaviour
 	{ 
 		boxWidth = distanceBetweenTwoPoints (min_lat, min_lon, min_lat, max_lon);
 		boxHeight = distanceBetweenTwoPoints (max_lat, min_lon, min_lat, min_lon);
+
 	}
 
 	// Helper method for converting degrees to radians
