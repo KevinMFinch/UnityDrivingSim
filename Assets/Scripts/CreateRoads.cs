@@ -62,7 +62,6 @@ public class CreateRoads : MonoBehaviour
 				Vector3[] roadMarkers = parseLineString (coordinates);
 				string time = System.DateTime.Now.ToUniversalTime ().ToString ();
 				ERRoad road = roadNetwork.CreateRoad ("Road " + time, roadType, roadMarkers);
-				road = roadNetwork.GetRoadByName ("Road " + time);
 				addRoad (road);
 			} else if (type == "MultiLineString") {
 				JSONArray coordinates = roadFeatures [i] ["geometry"] ["coordinates"].AsArray;
@@ -85,12 +84,10 @@ public class CreateRoads : MonoBehaviour
 		for (int i = 0; i < currentThreadRoads.Count; i++) {
 			ERRoad existing = currentThreadRoads [i];
 			Vector3 sharedPos = shareNode (existing, toAdd);
-			Debug.Log (sharedPos);
+			ERConnection[] conns = roadNetwork.LoadConnections ();
 			if (sharedPos.y >= 0) {
-				ERConnection conn = roadNetwork.InstantiateConnection(connection, "conn", sharedPos, new Vector3(0.0f, 0.0f));
-				Debug.Log (conn);
-				toAdd.AttachToEnd (conn);
-				Debug.Log ("Made a connection");
+				ERConnection conn = roadNetwork.InstantiateConnection(conns[5], "conn", sharedPos, new Vector3(0.0f, 0.0f));
+				toAdd.ConnectToEnd (conn,0);
 			}
 		}
 		currentThreadRoads.Add (toAdd);
