@@ -26,7 +26,6 @@ public class CreateRoads : MonoBehaviour
 	// Is downloaded in tiles
 
 	public ERRoadNetwork roadNetwork; // The roadnetword object from EasyRoads3D
-	public ERRoad road;				// The Road object from EasyRoads3D
 	public ERRoadType roadType;
 	public ERConnection connection;
 
@@ -85,8 +84,8 @@ public class CreateRoads : MonoBehaviour
 			Vector3 sharedPos = shareNode (existing, toAdd);
 			ERConnection[] conns = roadNetwork.LoadConnections ();
 			if (sharedPos.y >= 0) {
-				ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
-				toAdd.ConnectToEnd (conn,0);
+				//ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
+				//toAdd.ConnectToEnd (conn,0);
 			}
 		}
 		currentThreadRoads.Add (toAdd);

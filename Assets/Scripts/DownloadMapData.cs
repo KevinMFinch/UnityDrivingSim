@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class DownloadMapData : MonoBehaviour
 {
 
@@ -22,6 +21,9 @@ public class DownloadMapData : MonoBehaviour
 
 	public GameObject roadCreator;
 	// The object which has the create roads scripts attached to it
+
+	public GameObject cacheHandler;
+	// The object which handles caching/loading of tile data
 
 	// Use this for initialization
 	void Start ()
@@ -54,12 +56,23 @@ public class DownloadMapData : MonoBehaviour
 		}
 		Debug.Log ("all done downloading"); 
 		roadCreator.GetComponent<CreateRoads> ().connectRoads (); */
-		string url = baseURL () + query (minx, miny);
-		WWW www = new WWW (url);
-		yield return www;
-		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (www.text);
-		roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
 
+
+		// Caching
+		bool fileExists = cacheHandler.GetComponent<CacheTileData> ().CheckForFile(minx, miny, zoomLevel);
+		string results = "";
+		if (!fileExists) {
+			string url = baseURL () + query (minx, miny);
+			WWW www = new WWW (url);
+			yield return www;
+			results = www.text;
+			cacheHandler.GetComponent<CacheTileData> ().SaveFile (minx, miny, zoomLevel, results);
+		} else {
+			results = cacheHandler.GetComponent<CacheTileData> ().LoadFile (minx, miny, zoomLevel);
+			yield return results;
+		}
+		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
+		roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
 	}
 
 	// Returns the base URL for the mapzen vector tile sercvice
