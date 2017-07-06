@@ -44,8 +44,6 @@ public class CacheTileData : MonoBehaviour {
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
 		string contents = File.ReadAllText (filePath);
-		Debug.Log ("CONTENTS: ");
-		Debug.Log (contents);
 		return contents;
 	}
 

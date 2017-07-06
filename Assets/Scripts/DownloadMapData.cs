@@ -45,34 +45,30 @@ public class DownloadMapData : MonoBehaviour
 		int maxx = Mathf.Max (minXTile, maxXTile);
 		int miny = Mathf.Min (minYTile, maxYTile);
 		int maxy = Mathf.Max (minYTile, maxYTile);
-		/* for (int x = minx; x <= maxx; x++) {
+		for (int x = minx; x <= maxx; x++) {
 			for (int y = miny; y <= maxy; y++) {
-				string url = baseURL () + query (x, y);
-				WWW www = new WWW (url);
-				yield return www;
-				string results = www.text;
+				// Caching
+				bool fileExists = cacheHandler.GetComponent<CacheTileData> ().CheckForFile(x, y, zoomLevel);
+				string results = "";
+				if (!fileExists) {
+					string url = baseURL () + query (x, y);
+					WWW www = new WWW (url);
+					yield return www;
+					results = www.text;
+					cacheHandler.GetComponent<CacheTileData> ().SaveFile (x, y, zoomLevel, results);
+				} else {
+					results = cacheHandler.GetComponent<CacheTileData> ().LoadFile (x, y, zoomLevel);
+					yield return results;
+				}
 				roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
+				roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
 			}
 		}
 		Debug.Log ("all done downloading"); 
-		roadCreator.GetComponent<CreateRoads> ().connectRoads (); */
 
 
-		// Caching
-		bool fileExists = cacheHandler.GetComponent<CacheTileData> ().CheckForFile(minx, miny, zoomLevel);
-		string results = "";
-		if (!fileExists) {
-			string url = baseURL () + query (minx, miny);
-			WWW www = new WWW (url);
-			yield return www;
-			results = www.text;
-			cacheHandler.GetComponent<CacheTileData> ().SaveFile (minx, miny, zoomLevel, results);
-		} else {
-			results = cacheHandler.GetComponent<CacheTileData> ().LoadFile (minx, miny, zoomLevel);
-			yield return results;
-		}
-		roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
-		roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
+
+
 	}
 
 	// Returns the base URL for the mapzen vector tile sercvice
