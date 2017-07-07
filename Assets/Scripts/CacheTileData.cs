@@ -34,7 +34,6 @@ public class CacheTileData : MonoBehaviour
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
 		File.WriteAllText (filePath, text);
-		Debug.Log ("File saved");
 
 		#if UNITY_EDITOR
 		UnityEditor.AssetDatabase.Refresh ();
@@ -45,7 +44,6 @@ public class CacheTileData : MonoBehaviour
 	// If the file does not exist, LoadFile() will not be called
 	public string LoadFile (int x, int y, int zoom)
 	{
-		Debug.Log ("Load file");
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
 		string contents = File.ReadAllText (filePath);
