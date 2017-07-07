@@ -7,16 +7,19 @@ using UnityEngine;
 // Caches JSON files from Mapzen to reduce both loading time and Mapzen server load
 // Handles loadin and saving of data to disk
 // Saves files in the format x_y_zoom.json in the "Tiles" directory
-public class CacheTileData : MonoBehaviour {
+public class CacheTileData : MonoBehaviour
+{
 
-	private string basePath = "C:\\Users\\kfinch\\Desktop\\TileData";
+	private string basePath = "C:\\Users\\finch\\Desktop\\TileData";
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		
 	}
 
 	// Check for the particular tile and zoom combination json file
-	public bool CheckForFile(int x, int y, int zoom) {
+	public bool CheckForFile (int x, int y, int zoom)
+	{
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
 		if (File.Exists (filePath)) {
@@ -26,20 +29,22 @@ public class CacheTileData : MonoBehaviour {
 		}
 	}
 
-	public void SaveFile(int x, int y, int zoom, string text) {
+	public void SaveFile (int x, int y, int zoom, string text)
+	{
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
 		File.WriteAllText (filePath, text);
 		Debug.Log ("File saved");
 
 		#if UNITY_EDITOR
-		UnityEditor.AssetDatabase.Refresh();
+		UnityEditor.AssetDatabase.Refresh ();
 		#endif
 	}
 
 	// Guaranteed to return something since CheckForFile will always be called first
 	// If the file does not exist, LoadFile() will not be called
-	public string LoadFile(int x, int y, int zoom) {
+	public string LoadFile (int x, int y, int zoom)
+	{
 		Debug.Log ("Load file");
 		string fileName = x + "_" + y + "_" + zoom + ".txt";
 		string filePath = Path.Combine (basePath, fileName);
