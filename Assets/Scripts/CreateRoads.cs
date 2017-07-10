@@ -57,20 +57,19 @@ public class CreateRoads : MonoBehaviour
 		for (int i = 0; i < roadFeatures.Count; i++) {
 			string type = roadFeatures [i] ["geometry"] ["type"].Value;
 			string kindOfRoad = roadFeatures [i] ["properties"] ["kind"].Value;
+			string nameOfRoad = roadFeatures [i] ["properties"] ["name"].Value;
 			if (kindOfRoad != "path") {
 				if (type == "LineString") {
 					JSONArray coordinates = roadFeatures [i] ["geometry"] ["coordinates"].AsArray;
 					Vector3[] roadMarkers = parseLineString (coordinates);
-					string time = System.DateTime.Now.ToUniversalTime ().ToString ();
-					ERRoad road = roadNetwork.CreateRoad ("Road " + time, roadType, roadMarkers);
+					ERRoad road = roadNetwork.CreateRoad (nameOfRoad, roadType, roadMarkers);
 					addRoad (road);
 				} else if (type == "MultiLineString") {
 					JSONArray coordinates = roadFeatures [i] ["geometry"] ["coordinates"].AsArray;
 					for (int j = 0; j < coordinates.Count; j++) {
 						JSONArray coords = coordinates [j].AsArray;
 						Vector3[] roadMarkers = parseLineString (coords);
-						string time = System.DateTime.Now.ToUniversalTime ().ToString ();
-						ERRoad road = roadNetwork.CreateRoad ("Multiline " + time, roadType, roadMarkers);
+						ERRoad road = roadNetwork.CreateRoad (nameOfRoad, roadType, roadMarkers);
 						addRoad (road);
 					}
 				}
@@ -88,6 +87,9 @@ public class CreateRoads : MonoBehaviour
 			ERRoad existing = currentThreadRoads [i];
 			Vector3 sharedPos = shareNode (existing, toAdd);
 			ERConnection[] conns = roadNetwork.LoadConnections ();
+			for(int z = 0; z < conns.Length; z++) {
+				Debug.Log (z + " "+ conns [z].GetName());
+			}
 			if (sharedPos.y >= 0) {
 				//ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
 				//toAdd.ConnectToEnd (conn,0);
@@ -204,7 +206,9 @@ public class CreateRoads : MonoBehaviour
 	{ 
 		boxWidth = distanceBetweenTwoPoints (min_lat, min_lon, min_lat, max_lon);
 		boxHeight = distanceBetweenTwoPoints (max_lat, min_lon, min_lat, min_lon);
-
+		Terrain t = Terrain.activeTerrain;
+		t.terrainData.size = new Vector3 (2 * boxHeight, 1, 2 * boxWidth);
+		t.transform.position = new Vector3 (-boxHeight / 2, 0, -boxWidth / 2);
 	}
 
 	// Helper method for converting degrees to radians

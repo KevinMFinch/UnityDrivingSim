@@ -10,7 +10,7 @@ using UnityEngine;
 public class CacheTileData : MonoBehaviour
 {
 
-	private string basePath = "C:\\Users\\finch\\Desktop\\TileData";
+	private string basePath = "C:\\Users\\kfinch\\Desktop\\TileData";
 	// Use this for initialization
 	void Start ()
 	{
