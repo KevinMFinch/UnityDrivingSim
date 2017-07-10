@@ -87,9 +87,6 @@ public class CreateRoads : MonoBehaviour
 			ERRoad existing = currentThreadRoads [i];
 			Vector3 sharedPos = shareNode (existing, toAdd);
 			ERConnection[] conns = roadNetwork.LoadConnections ();
-			for(int z = 0; z < conns.Length; z++) {
-				Debug.Log (z + " "+ conns [z].GetName());
-			}
 			if (sharedPos.y >= 0) {
 				//ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
 				//toAdd.ConnectToEnd (conn,0);
