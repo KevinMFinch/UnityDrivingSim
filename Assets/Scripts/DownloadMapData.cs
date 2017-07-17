@@ -25,6 +25,8 @@ public class DownloadMapData : MonoBehaviour
 	public GameObject cacheHandler;
 	// The object which handles caching/loading of tile data
 
+	public GameObject buildingCreator;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -62,6 +64,7 @@ public class DownloadMapData : MonoBehaviour
 				}
 				roadCreator.GetComponent<CreateRoads> ().ReceiveDownloadResults (results);
 				roadCreator.GetComponent<CreateRoads> ().finishBuilding ();
+				buildingCreator.GetComponent<CreateBuildings> ().receiveData (results);
 			}
 		}
 		Debug.Log ("all done downloading"); 
