@@ -30,10 +30,13 @@ public class DownloadMapData : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+
+		// Princeton area
 		float minLon = -74.65986f;
 		float minLat = 40.34759f;
 		float maxLon = -74.64559f;
 		float maxLat = 40.35430f;
+
 		minXTile = xFromLon (minLon);
 		maxXTile = xFromLon (maxLon);
 		minYTile = yFromlat (minLat);
