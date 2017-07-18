@@ -81,9 +81,10 @@ public class CreateRoads : MonoBehaviour
 	// Attempts to reduce chopiness in road merging
 	// Uses road merging technique mentioned in Chris Hay's independent work
 	// If angle < 30 degrees, connect roads as one
+	// ****This isn't actually doing anything right now
 	void addRoad (ERRoad toAdd)
 	{
-		for (int i = 0; i < currentThreadRoads.Count; i++) {
+		/* for (int i = 0; i < currentThreadRoads.Count; i++) {
 			ERRoad existing = currentThreadRoads [i];
 			Vector3 sharedPos = shareNode (existing, toAdd);
 			ERConnection[] conns = roadNetwork.LoadConnections ();
@@ -91,7 +92,7 @@ public class CreateRoads : MonoBehaviour
 				//ERConnection conn = roadNetwork.InstantiateConnection(conns[10], "conn", sharedPos, new Vector3(0.0f, 0.0f));
 				//toAdd.ConnectToEnd (conn,0);
 			}
-		}
+		}*/
 		currentThreadRoads.Add (toAdd);
 	}
 
@@ -126,12 +127,6 @@ public class CreateRoads : MonoBehaviour
 		roadNetwork.BuildRoadNetwork ();
 	}
 
-	// Converts from radians to degrees
-	float toDegrees (float radians)
-	{
-		return radians * 180 / Mathf.PI;
-	}
-
 	// Recive a JSON array which represents the cooridnates of nodes in a road
 	// Use that array to create EasyRoads3D
 	Vector3[] parseLineString (JSONArray coordinates)
@@ -153,7 +148,7 @@ public class CreateRoads : MonoBehaviour
 	// Calculated in this function
 	float longToZCoord (float longitude)
 	{
-		float distance = distanceBetweenTwoPoints (min_lat, min_lon, min_lat, longitude);
+		float distance = Calc.distanceBetweenTwoPoints (min_lat, min_lon, min_lat, longitude);
 		if (longitude < min_lon) {
 			distance *= -1;
 		}
@@ -164,7 +159,7 @@ public class CreateRoads : MonoBehaviour
 	// Same coordinate system as the one for longToZCoord
 	float latToXCoord (float latitude)
 	{
-		float distance = distanceBetweenTwoPoints (min_lat, min_lon, latitude, min_lon);
+		float distance = Calc.distanceBetweenTwoPoints (min_lat, min_lon, latitude, min_lon);
 		if (latitude < min_lat) {
 			distance *= -1;
 		}
@@ -182,35 +177,14 @@ public class CreateRoads : MonoBehaviour
 		calculateWidthAndHeightOfBBox ();
 	}
 
-	// Returns the distance between two latitudes and longitudes, in meters.
-	// Using the haversine formula
-	// http://andrew.hedges.name/experiments/haversine/
-	float distanceBetweenTwoPoints (float lat1, float lon1, float lat2, float lon2)
-	{
-		float radius = 6371e3f;	
-		float dlon = toRadians (lon2) - toRadians (lon1);
-		float dlat = toRadians (lat2) - toRadians (lat1);
-		float a = Mathf.Pow (Mathf.Sin (dlat / 2), 2);
-		a += Mathf.Cos (toRadians (lat1)) * Mathf.Cos (toRadians (lat2)) * Mathf.Pow (Mathf.Sin (dlon / 2), 2);
-		float c = 2 * Mathf.Atan2 (Mathf.Sqrt (a), Mathf.Sqrt (1 - a));
-		float distance = radius * c;
-		return distance;
-
-	}
-
 	// Calculate and store width and height of bounding box
 	void calculateWidthAndHeightOfBBox ()
 	{ 
-		boxWidth = distanceBetweenTwoPoints (min_lat, min_lon, min_lat, max_lon);
-		boxHeight = distanceBetweenTwoPoints (max_lat, min_lon, min_lat, min_lon);
+		boxWidth = Calc.distanceBetweenTwoPoints (min_lat, min_lon, min_lat, max_lon);
+		boxHeight = Calc.distanceBetweenTwoPoints (max_lat, min_lon, min_lat, min_lon);
 		Terrain t = Terrain.activeTerrain;
 		t.terrainData.size = new Vector3 (2 * boxHeight, 1, 2 * boxWidth);
 		t.transform.position = new Vector3 (-boxHeight / 2, 0, -boxWidth / 2);
 	}
 
-	// Helper method for converting degrees to radians
-	float toRadians (float degrees)
-	{
-		return degrees * Mathf.PI / 180;
-	}
 }

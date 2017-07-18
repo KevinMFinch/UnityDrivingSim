@@ -98,16 +98,10 @@ public class DownloadMapData : MonoBehaviour
 	// https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 	int yFromlat (float lat_degrees)
 	{
-		float lat_rad = toRadians (lat_degrees);
+		float lat_rad = Calc.toRadians (lat_degrees);
 		int n = (int)Mathf.Pow (2, zoomLevel);
 		int tile = (int)(((1.0 - (Mathf.Log (Mathf.Tan (lat_rad) + 1 / Mathf.Cos (lat_rad))) / Mathf.PI) / 2.0 * n));
 		return tile;
-	}
-
-	// helper method to get radians from degrees
-	float toRadians (float degrees)
-	{
-		return degrees * Mathf.PI / 180;
 	}
 
 	// Update is called once per frame

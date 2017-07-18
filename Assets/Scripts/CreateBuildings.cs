@@ -25,7 +25,6 @@ public class CreateBuildings : MonoBehaviour {
 			if (kindOfBuilding == "Polygon") {
 				JSONArray coordArray = building [0].AsArray;
 				// If type == polygon check
-				Debug.Log ("ccount:" + coordArray.Count);
 				for (int j = 0; j < coordArray.Count; j++) {
 					float longi = coordArray [j][0].AsFloat;
 					float lati = coordArray [j] [1].AsFloat;
