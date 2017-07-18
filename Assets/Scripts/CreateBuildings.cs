@@ -24,10 +24,10 @@ public class CreateBuildings : MonoBehaviour {
 			string kindOfBuilding = buildingFeatures [i]["geometry"] ["type"].Value;
 			if (kindOfBuilding == "Polygon") {
 				JSONArray coordArray = building [0].AsArray;
-				// If type == polygon check
 				for (int j = 0; j < coordArray.Count; j++) {
 					float longi = coordArray [j][0].AsFloat;
 					float lati = coordArray [j] [1].AsFloat;
+
 				}
 			}
 		}

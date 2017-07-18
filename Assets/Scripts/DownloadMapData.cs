@@ -38,7 +38,7 @@ public class DownloadMapData : MonoBehaviour
 		maxXTile = xFromLon (maxLon);
 		minYTile = yFromlat (minLat);
 		maxYTile = yFromlat (maxLat);
-		roadCreator.GetComponent<CreateRoads> ().storeBoundingBox (minLon, minLat, maxLon, maxLat);
+		Constants.storeBoundingBox (minLon, minLat, maxLon, maxLat);
 		StartCoroutine (downloadMapData ());
 	}
 

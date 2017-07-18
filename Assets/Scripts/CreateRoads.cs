@@ -6,19 +6,7 @@ using EasyRoads3Dv3;
 
 public class CreateRoads : MonoBehaviour
 {
-
-	private float min_lon;
-	// Min lon of the bounding box
-	private float min_lat;
-	// Min lat of the bounding box
-	private float max_lon;
-	// Max lon of the bounding box
-	private float max_lat;
-	// Max lot of the bounding box
-	private float boxWidth;
-	// Height of the bounding box in meters
-	private float boxHeight;
-	// Width of the bounding box in meters
+	
 	private List<ERRoad> roads;
 	// A list of all the roads in the scene
 	private List<ERRoad> currentThreadRoads;
@@ -133,58 +121,12 @@ public class CreateRoads : MonoBehaviour
 	{
 		Vector3[] markers = new Vector3[coordinates.AsArray.Count];
 		for (int j = 0; j < coordinates.Count; j++) {
-			float zCoord = longToZCoord (coordinates [j] [0].AsFloat);
-			float xCoord = latToXCoord (coordinates [j] [1].AsFloat);
+			float zCoord = Calc.longToZCoord (coordinates [j] [0].AsFloat);
+			float xCoord = Calc.latToXCoord (coordinates [j] [1].AsFloat);
 			Vector3 vector = new Vector3 (xCoord, 0, zCoord);
 			markers [j] = vector;
 		}
 		return markers;
-	}
-
-	// Calculate the Unity z coordinate from a longitude
-	// Uses the bottom left of the bounding box as the origin of the coordinate system
-	// AKA, a point at (minLong, minLat) would have a Unity position of (0, 0, 0)
-	// A point at (maxLong, minlat) would have a Unity position of (0, 0, Z) where Z is what is being
-	// Calculated in this function
-	float longToZCoord (float longitude)
-	{
-		float distance = Calc.distanceBetweenTwoPoints (min_lat, min_lon, min_lat, longitude);
-		if (longitude < min_lon) {
-			distance *= -1;
-		}
-		return distance;
-	}
-
-	// Calculate the Unity x coordinate from a latitude
-	// Same coordinate system as the one for longToZCoord
-	float latToXCoord (float latitude)
-	{
-		float distance = Calc.distanceBetweenTwoPoints (min_lat, min_lon, latitude, min_lon);
-		if (latitude < min_lat) {
-			distance *= -1;
-		}
-		return distance;
-	}
-	
-	// Receive and store the bounding box of the openstreetmap query for use in calculating distances for rendering roads
-	// Also calculate height and width of bounding box, in meters
-	public void storeBoundingBox (float min_long, float min_lat, float max_long, float max_lat)
-	{
-		this.min_lon = min_long;
-		this.min_lat = min_lat;
-		this.max_lon = max_long;
-		this.max_lat = max_lat;
-		calculateWidthAndHeightOfBBox ();
-	}
-
-	// Calculate and store width and height of bounding box
-	void calculateWidthAndHeightOfBBox ()
-	{ 
-		boxWidth = Calc.distanceBetweenTwoPoints (min_lat, min_lon, min_lat, max_lon);
-		boxHeight = Calc.distanceBetweenTwoPoints (max_lat, min_lon, min_lat, min_lon);
-		Terrain t = Terrain.activeTerrain;
-		t.terrainData.size = new Vector3 (2 * boxHeight, 1, 2 * boxWidth);
-		t.transform.position = new Vector3 (-boxHeight / 2, 0, -boxWidth / 2);
 	}
 
 }
