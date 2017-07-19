@@ -85,6 +85,7 @@ public class CreateBuildings : MonoBehaviour {
 				tris.Add (j);
 				tris.Add (j + 1);
 				tris.Add (j + 2);
+	
 			}
 				
 
