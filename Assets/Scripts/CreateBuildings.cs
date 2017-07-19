@@ -5,9 +5,10 @@ using SimpleJSON;
 
 public class CreateBuildings : MonoBehaviour {
 
-	List<List<Vector3>> buildingVertices = new List<List<Vector3>> ();
 	// A list of lists of vertices that make up each building
 	List<float> buildingHeights = new List<float>();
+
+	public Material mat;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,7 @@ public class CreateBuildings : MonoBehaviour {
 	// Receive the GeoJSON data from Mapzen, parse for buildings
 	public void receiveData(string results) {
 		var json = JSON.Parse (results);
+		List<List<Vector3>> buildingVertices = new List<List<Vector3>> ();
 		JSONArray buildingFeatures = json ["buildings"] ["features"].AsArray;
 		for (int i = 0; i < buildingFeatures.Count; i++) {
 			JSONArray building = buildingFeatures [i] ["geometry"] ["coordinates"].AsArray;
@@ -43,47 +45,76 @@ public class CreateBuildings : MonoBehaviour {
 				buildingVertices.Add (vertices);
 			}
 		}
-		createBuildings ();
+		createBuildings (buildingVertices);
 	}
 
-	void createBuildings() {
+	void createBuildings(List<List<Vector3>> buildingVertices) {
+		Debug.Log (buildingVertices.Count);
 		for (int i = 0; i < buildingVertices.Count; i++) {
-			GameObject thisBuilding = new GameObject ();
-			thisBuilding.AddComponent<MeshFilter>();
-			thisBuilding.AddComponent<MeshRenderer>();
-			Mesh mesh = new Mesh (); 
-			mesh.Clear();
+			// Create a building game object
+			GameObject thisBuilding = new GameObject ("Building "+ i);
+			float height = buildingVertices [i] [1].y;
+			// Compute the center point of the polygon both on the ground, and at height
+			// Add center vertices to end of list
+			Vector3 center = findCenter (buildingVertices[i]);
+			buildingVertices[i].Add (center);
+			Vector3 raisedCenter = center;
+			raisedCenter.y += height;
+			buildingVertices[i].Add (raisedCenter);
 
+			/******
+			 * Use a list for the triangles since I dont really know how many there
+			 * are going to be for each building. Generate triangles in the same way as before,
+			 * just add them to list and then convert list to array at the end
+			 * 
+			 ****/
+			List<int> tris = new List<int> ();
+			// Convert vertices to array for mesh
 			Vector3[] vertices = buildingVertices [i].ToArray();
-			mesh.vertices = vertices;
-			Vector2[] uvs = new Vector2[vertices.Length];
-			for (int j = 0; j < uvs.Length; j++)
-			{
-				uvs[j] = new Vector2(vertices[j].x, vertices[j].z);
-			}
-			mesh.uv = uvs;
-
-			int mult3 = nearestMultipleOfThree (vertices.Length);
-			int[] triangles = new int[mult3];
-			for (int j = 0; j < triangles.Length; j++) {
-				if (j <= vertices.Length) {
-					triangles [j] = j;
+			// Populate triangles array with triangles that are two outside vertices and the center vertex for the y level
+			for (int j = 0; j < vertices.Length-2; j++) {
+				tris.Add(j);
+				tris.Add(j + 2);
+				// The center vertex is on the ground if it is in the even indeces
+				if (j % 2 == 0) {
+					tris.Add(vertices.Length - 2);
 				} else {
-					triangles[j] = vertices.Length - j;
+					tris.Add(vertices.Length - 1);
 				}
+
+				tris.Add (j);
+				tris.Add (j + 1);
+				tris.Add (j + 2);
 			}
+				
+
+
+			int[] triangles = tris.ToArray();
+
+			// Create and apply the mesh
+			MeshFilter mf = thisBuilding.AddComponent<MeshFilter>();
+			Mesh mesh = new Mesh();
+			mf.mesh = mesh;
+			Renderer rend = thisBuilding.AddComponent<MeshRenderer>();
+			rend.material = mat;
+			mesh.vertices = vertices;
 			mesh.triangles = triangles;
-			thisBuilding.GetComponent<MeshFilter>().mesh = mesh;
+			mesh.RecalculateBounds();
+			mesh.RecalculateNormals();
+
 		}
 	}
 
-	int nearestMultipleOfThree(int input) {
-		if ((input + 1) % 3 == 0) {
-			return input + 1;
-		} else if ((input + 2) % 3 == 0) {
-			return input + 2;
-		} else {
-			return input;
+	// Find the center X-Z position of the polygon.
+	Vector3 findCenter(List<Vector3> verts) {
+		Vector3 center = Vector3.zero;
+		// Only need to check every other spot since the odd indexed vertices are in the air, but have same XZ as previous
+		for (int i = 0; i < verts.Count; i+= 2) {
+			center += verts [i];
 		}
+		center.y = 0;
+		return center / (verts.Count / 2);
+
 	}
+
 }
