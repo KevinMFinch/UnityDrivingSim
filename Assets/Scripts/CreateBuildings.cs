@@ -32,7 +32,7 @@ public class CreateBuildings : MonoBehaviour {
 				JSONArray coordArray = building [0].AsArray;
 				// Create the list of vertices for this building (building[i])
 				List<Vector3> vertices = new List<Vector3> ();
-				float height = Random.Range (15, 60);
+				float height = Random.Range (5, 15);
 				for (int j = 0; j < coordArray.Count; j++) {
 					float xCoord = Calc.latToXCoord (coordArray [j] [1].AsFloat);
 					float zCoord = Calc.longToZCoord (coordArray [j][0].AsFloat);
@@ -99,6 +99,11 @@ public class CreateBuildings : MonoBehaviour {
 					tris.Add (j - 1);
 				}
 			}
+
+			Vector2[] uvs = new Vector2[vertices.Length];
+			for (int j = 0; j < uvs.Length; j++) {
+				uvs[j] = new Vector2(vertices[j].x, vertices[j].z);
+			}
 				
 			int[] triangles = tris.ToArray();
 
@@ -110,6 +115,7 @@ public class CreateBuildings : MonoBehaviour {
 			rend.material = mat;
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
+			mesh.uv = uvs;
 			mesh.RecalculateBounds();
 			mesh.RecalculateNormals();
 
