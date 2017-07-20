@@ -62,34 +62,44 @@ public class CreateBuildings : MonoBehaviour {
 			raisedCenter.y += height;
 			buildingVertices[i].Add (raisedCenter);
 
-			/******
-			 * Use a list for the triangles since I dont really know how many there
-			 * are going to be for each building. Generate triangles in the same way as before,
-			 * just add them to list and then convert list to array at the end
-			 * 
-			 ****/
 			List<int> tris = new List<int> ();
 			// Convert vertices to array for mesh
 			Vector3[] vertices = buildingVertices [i].ToArray();
-			// Populate triangles array with triangles that are two outside vertices and the center vertex for the y level
-			for (int j = 0; j < vertices.Length-2; j++) {
-				tris.Add(j);
-				tris.Add(j + 2);
-				// The center vertex is on the ground if it is in the even indeces
-				if (j % 2 == 0) {
-					tris.Add(vertices.Length - 2);
-				} else {
-					tris.Add(vertices.Length - 1);
-				}
 
+			// Do the triangles for the roof and the floor of the building
+			// Roof points are at odd indeces
+			for (int j = vertices.Length - 3; j >= 0; j--) {
+				// Add the point
 				tris.Add (j);
-				tris.Add (j + 1);
-				tris.Add (j + 2);
-	
+				// Check for wrap around
+				if (j - 2 >= 0) {
+					tris.Add (j - 2);
+				} else {
+					// If wrap around, add the first vertex
+					int diff = j - 2;
+					tris.Add (vertices.Length - 2 + diff);
+				}
+				// Check if its at ground or building height level, choose proper center point
+				if (j % 2 == 0) {
+					tris.Add (vertices.Length - 2);
+				} else {
+					tris.Add (vertices.Length - 1);
+				}
+			}
+
+			// Do triangles which connect roof to ground
+			for (int j = vertices.Length-3; j >= 2; j--){ 
+				if (j % 2 == 1) {
+					tris.Add (j);
+					tris.Add (j - 1);
+					tris.Add (j - 2);
+				} else {
+					tris.Add (j);
+					tris.Add (j - 2);
+					tris.Add (j - 1);
+				}
 			}
 				
-
-
 			int[] triangles = tris.ToArray();
 
 			// Create and apply the mesh
@@ -113,7 +123,6 @@ public class CreateBuildings : MonoBehaviour {
 		for (int i = 0; i < verts.Count; i+= 2) {
 			center += verts [i];
 		}
-		center.y = 0;
 		return center / (verts.Count / 2);
 
 	}
