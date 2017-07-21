@@ -19,7 +19,7 @@ SpeedTreeImporter:
   - height: 0.25
     castShadows: 1
     receiveShadows: 1
-    useLightProbes: 1
+    useLightProbes: 0
     reflectionProbeUsage: 1
     enableBump: 1
     enableHue: 1
@@ -27,11 +27,11 @@ SpeedTreeImporter:
   - height: 0.125
     castShadows: 1
     receiveShadows: 1
-    useLightProbes: 1
+    useLightProbes: 0
     reflectionProbeUsage: 1
     enableBump: 1
     enableHue: 1
-    windQuality: 4
+    windQuality: 2
   - height: 0.01
     castShadows: 0
     receiveShadows: 0
