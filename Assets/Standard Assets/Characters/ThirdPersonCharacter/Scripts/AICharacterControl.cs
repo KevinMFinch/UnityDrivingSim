@@ -11,6 +11,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public ThirdPersonCharacter character { get; private set; } // the character we are controlling
         public Transform target;                                    // target to aim for
 
+		public GameObject car;	// The car
+
 
         private void Start()
         {
@@ -27,11 +29,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (target != null)
                 agent.SetDestination(target.position);
-
-            if (agent.remainingDistance > agent.stoppingDistance)
-                character.Move(agent.desiredVelocity, false, false);
-            else
-                character.Move(Vector3.zero, false, false);
+				if (agent.remainingDistance > agent.stoppingDistance)
+					character.Move(agent.desiredVelocity, false, false);
+				else
+					character.Move(Vector3.zero, false, false);
+            
         }
 
 
