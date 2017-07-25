@@ -29,10 +29,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (target != null)
                 agent.SetDestination(target.position);
+			if (car.transform.position.x > 200f) {
 				if (agent.remainingDistance > agent.stoppingDistance)
 					character.Move(agent.desiredVelocity, false, false);
 				else
 					character.Move(Vector3.zero, false, false);
+			}
+
             
         }
 
