@@ -6,4 +6,4 @@ This repository contains code for a simulator which is being created for the pur
 This work follows from Christopher Hay (Princeton '17) in his paper Training of Vehicle Perception via Stochastic Simulation. 
 My work is being conducted under Professor Kornhauser.
 
-The project currently requires the asset EasyRoads3D Pro from the Unity asset store. Since I do not own this asset, I have no uploaded it to the repository. If you wish to extend this work, that asset should be purchased and imported into the Unity project.
+The project currently requires the assets EasyRoads3D Pro and Gaia from the Unity asset store. Since I do not own these assets, I have not uploaded them to the repository. If you wish to extend this work, those assets should be purchased and imported into the Unity project.
