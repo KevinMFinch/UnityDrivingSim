@@ -14,11 +14,8 @@ public class TruckController : MonoBehaviour {
 	void Start () {
 		waypoints = new Vector3[3];
 		waypoints [0] = waypointObj.transform.GetChild (0).position;
-		Debug.Log (waypoints [0]);
 		waypoints [1] = waypointObj.transform.GetChild (1).position;
-		Debug.Log (waypoints [1]);
 		waypoints [2] = waypointObj.transform.GetChild (2).position;
-		Debug.Log (waypoints [2]);
 	}
 	
 	// Update is called once per frame
