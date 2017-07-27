@@ -8,6 +8,7 @@ public class TruckController : MonoBehaviour {
 	private Vector3[] waypoints;	// The actual waypoints
 	private int currentWaypoint;	// The current waypoint to navigate towards
 	private float speed = 0.5f;			// The distance to cover in one frame
+	private float rotationSpeed = 1.0f; // The speed at which to rotate
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +29,9 @@ public class TruckController : MonoBehaviour {
 			Vector3 unitVector = direction.normalized;
 			Vector3 newPos = gameObject.transform.position += speed * unitVector;
 			Quaternion rotation = gameObject.transform.rotation;
+			Quaternion rotateTowards = Quaternion.LookRotation (unitVector);
 			gameObject.transform.SetPositionAndRotation (newPos, rotation);
+			gameObject.transform.rotation = Quaternion.Slerp (rotation, rotateTowards, Time.deltaTime * rotationSpeed);
 
 			if (CheckAdvanceWaypoint ()) {
 				currentWaypoint++;
