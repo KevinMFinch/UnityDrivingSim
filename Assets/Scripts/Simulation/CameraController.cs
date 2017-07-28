@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour {
 		transform.position = player.transform.position + offset;
 	}
 
-	void OnGUI()
+	/* void OnGUI()
 	{
 		Vector3 p = new Vector3();
 		Camera  c = Camera.main;
@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour {
 		GUILayout.Label("Mouse position: " + mousePos);
 		GUILayout.Label("World position: " + p.ToString("F3"));
 		GUILayout.EndArea();
-	}
+	} */
 
 
 }

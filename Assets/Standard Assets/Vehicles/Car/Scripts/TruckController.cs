@@ -12,10 +12,10 @@ public class TruckController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		waypoints = new Vector3[3];
-		waypoints [0] = waypointObj.transform.GetChild (0).position;
-		waypoints [1] = waypointObj.transform.GetChild (1).position;
-		waypoints [2] = waypointObj.transform.GetChild (2).position;
+		waypoints = new Vector3[7];
+		for (int i = 0; i < waypoints.Length; i++) {
+			waypoints [i] = waypointObj.transform.GetChild (i).position;
+		}
 	}
 	
 	// Update is called once per frame
