@@ -16,7 +16,7 @@ public class DownloadMapData : MonoBehaviour
 	private int zoomLevel = 16;
 	// Zoom level for downloading mapzen data
 	// Higher numbers = smaller region, more details
-	private string API_KEY = "mapzen-LKAwJUj";
+	private string API_KEY = "API_KEY";
 	// API key for mapzen
 
 	public GameObject roadCreator;
